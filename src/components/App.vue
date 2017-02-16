@@ -13,7 +13,7 @@
         section: 'Head',
         version: '0.10.0',
         callingAPI: false,
-        serverURI: 'http://10.110.1.10:8080',
+        serverURI: 'http://localhost:8080/login',
         caller: this.$http
       }
     },
