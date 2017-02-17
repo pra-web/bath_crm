@@ -243,31 +243,7 @@
   ],
   "login": [
     {
-      "id": 1,
-      "name": "Glenna Reichert",
-      "user": "admin",
-      "username": "admin",
-      "token": "12345",
-      "password": "test",
-      "email": "Chaim_McDermott@dana.io",
-      "birthday": "04.10.1985",
-      "address": {
-        "street": "Dayna Park",
-        "suite": "Suite 449",
-        "city": "Bartholomebury",
-        "zipcode": "76495-3109",
-        "geo": {
-          "lat": "24.6463",
-          "lng": "-168.8889"
-        }
-      },
-      "phone": "(775)976-6794 x41206",
-      "website": "conrad.com",
-      "company": {
-        "name": "Yost and Sons",
-        "catchPhrase": "Switchable contextually-based project",
-        "bs": "aggregate real-time technologies"
-      }
+      "id": 1
     },
     {
       "id": 2,
@@ -295,18 +271,44 @@
         "catchPhrase": "Centralized empowering task-force",
         "bs": "target end-to-end models"
       }
+    },
+    {
+      "id": 3
+    },
+    {
+      "id": 4
+    },
+    {
+      "id": 5
+    },
+    {
+      "id": 6
+    },
+    {
+      "id": 7
+    },
+    {
+      "id": 8
+    },
+    {
+      "id": 9
+    },
+    {
+      "username": "test",
+      "password": "test",
+      "id": 10
     }
   ],
   "events": [
     {
       "id": 1,
       "title": "All Day Event",
-      "start": "2017-02-18"
+      "start": "2017-02-09"
     },
     {
-      "start": "2017-01-29",
-      "end": "2017-03-12",
-      "id": 2
+      "start": "2017-02-29",
+      "id": 2,
+      "title": "All Day Test"
     }
   ]
 }

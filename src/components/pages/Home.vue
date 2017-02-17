@@ -35,23 +35,39 @@ export default {
           }
           $('#calendar').fullCalendar('unselect')
         },
-        resources: {
-          refetchResourcesOnNavigate: true,
-          url: 'http://localhost:3000/login',
-          type: 'POST'
+        // eventClick: function (event, element) {
+        //   event.title = 'CLICKED!'
+        //   $('#calendar').fullCalendar('updateEvent', event)
+        // },
+        eventClick: function (drag, title, event, start, end, minuteDelta, allDay, revertFunc) {
+          console.log(event)
+          $.ajax({
+            url: 'http://localhost:3000/events',
+            type: 'POST',
+            dataType: 'json',
+            data: ({
+              title: title,
+              start: start,
+              end: end
+            }),
+            success: function (data, textStatus) {
+              if (!data) {
+                revertFunc()
+                return
+              }
+              $('#calendar').fullCalendar('updateEvent', event)
+            },
+            error: function () {
+              revertFunc()
+            }
+          })
         },
         navLinks: true,
         editable: true,
         eventLimit: false,
-        events: [{
-          title: 'All Day Event',
-          start: '2017-02-18'
-        },
-        {
-          title: 'tester',
-          start: '2017-02-10'
+        events: {
+          url: 'http://localhost:3000/events'
         }
-        ]
       })
     }
   },

@@ -6,7 +6,7 @@ Vue.use(Vuex)
 const state = {
   callingAPI: false,
   searching: '',
-  serverURI: 'http://localhost:8080',
+  serverURI: 'https://api.online-bani.ru',
   user: null,
   token: null,
   userInfo: {

@@ -13,14 +13,15 @@
         section: 'Head',
         version: '0.10.0',
         callingAPI: false,
-        serverURI: 'http://localhost:8080/login',
+        serverURI: 'http://localhost:3000',
         caller: this.$http
       }
     },
     methods: {
       callAPI: function (method, url, data) {
         this.callingAPI = true
-        url = url || this.serverURI // if no url is passed then inheret local server URI
+        // url = this.serverURI + url
+        url = url || this.serverURI
         return this.caller({
           url: url,
           method: method,

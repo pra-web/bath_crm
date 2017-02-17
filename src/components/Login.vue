@@ -32,6 +32,7 @@ module.exports = {
   name: 'Login',
   data: function (router) {
     return {
+      authUser: 'https://api.online-bani.ru/login',
       section: 'Login',
       loading: '',
       username: '',
@@ -44,18 +45,17 @@ module.exports = {
       //  Change submit button
       var self = this
       var store = this.$store
-
       this.toggleLoading()
       this.resetResponse()
       store.dispatch('TOGGLE_LOADING')
 
       //  Login
-      this.$parent.callAPI('POST', '/login', { username: this.username, password: this.password }).then(function (response) {
+      this.$http.post(this.authUser, { username: this.username, password: this.password }).then(function (response) {
         store.dispatch('TOGGLE_LOADING')
-
+        console.log(response.body)
+        console.log(response.statusText)
         if (response.data) {
           var data = response.data
-
           if (data.error) {
             if (data.error.name) { //  Object from LDAP at this point
               switch (data.error.name) {
