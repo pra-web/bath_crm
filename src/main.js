@@ -31,7 +31,6 @@ Vue.http.interceptors.push((request, next) => {
     headers.Authorization = this.$store.state.token
   }
   console.log(headers)
-
   // continue to next interceptor without modifying the response
   next()
 })
@@ -44,16 +43,24 @@ var router = new VueRouter({
     return savedPosition || { x: 0, y: 0 }
   }
 })
+// Check local storage to handle refreshes
+if (window.localStorage) {
+  if (store.state.user !== window.localStorage.getItem('user')) {
+    store.commit('SET_USER', JSON.parse(window.localStorage.getItem('user')))
+    store.commit('SET_TOKEN', window.localStorage.getItem('token'))
+  }
+}
 
-// Some middleware to help us ensure the user is authenticated.
 router.beforeEach((to, from, next) => {
-  // window.console.log('Transition', transition)
-  if (to.auth && (to.router.app.$store.state.token === 'null')) {
-    window.console.log('Not authenticated')
-    next({
-      path: '/login',
-      query: { redirect: to.fullPath }
-    })
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.state.user === null) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
   } else {
     next()
   }
@@ -67,11 +74,3 @@ new Vue({
   store: store,
   render: h => h(AppView)
 })
-
-// Check local storage to handle refreshes
-if (window.localStorage) {
-  if (store.state.user !== window.localStorage.getItem('user')) {
-    store.dispatch('SET_USER', JSON.parse(window.localStorage.getItem('user')))
-    store.dispatch('SET_TOKEN', window.localStorage.getItem('token'))
-  }
-}

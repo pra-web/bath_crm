@@ -32,7 +32,6 @@ module.exports = {
   name: 'Login',
   data: function (router) {
     return {
-      authUser: 'https://api.online-bani.ru/login',
       section: 'Login',
       loading: '',
       username: '',
@@ -47,13 +46,11 @@ module.exports = {
       var store = this.$store
       this.toggleLoading()
       this.resetResponse()
-      store.dispatch('TOGGLE_LOADING')
+      store.commit('TOGGLE_LOADING')
 
       //  Login
-      this.$http.post(this.authUser, { username: this.username, password: this.password }).then(function (response) {
-        store.dispatch('TOGGLE_LOADING')
-        console.log(response.body)
-        console.log(response.statusText)
+      this.$parent.callAPI('POST', '/login', { username: this.username, password: this.password }).then(function (response) {
+        store.commit('TOGGLE_LOADING')
         if (response.data) {
           var data = response.data
           if (data.error) {
@@ -68,9 +65,9 @@ module.exports = {
           } else {
             //  success. Let's load up the dashboard
             if (data.user) {
-              store.dispatch('SET_USER', data.user)
+              store.commit('SET_USER', data.user)
               var token = 'Bearer ' + data.token
-              store.dispatch('SET_TOKEN', token)
+              store.commit('SET_TOKEN', token)
 
               // Save to local storage as well
               if (window.localStorage) {
@@ -88,7 +85,7 @@ module.exports = {
         self.toggleLoading()
       }, function (response) {
         // error
-        store.dispatch('TOGGLE_LOADING')
+        store.commit('TOGGLE_LOADING')
         console.log('Error', response)
         self.response = 'Server appears to be offline'
         self.toggleLoading()

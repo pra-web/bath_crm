@@ -27,7 +27,7 @@ const routes = [
   }, {
     path: '/',
     component: DashView,
-    auth: true,
+    meta: { requiresAuth: true },
     children: [
       {
         path: '',

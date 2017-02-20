@@ -13,24 +13,23 @@
         section: 'Head',
         version: '0.10.0',
         callingAPI: false,
-        serverURI: 'http://localhost:3000',
+        serverURI: 'https://api.online-bani.ru',
         caller: this.$http
       }
     },
     methods: {
-      callAPI: function (method, url, data) {
+      callAPI: function (method, url, body) {
         this.callingAPI = true
-        // url = this.serverURI + url
-        url = url || this.serverURI
+        url = this.serverURI + url
         return this.caller({
           url: url,
           method: method,
-          data: data
+          body: body
         })
       },
       logout: function () {
-        this.$store.dispatch('SET_USER', null)
-        this.$store.dispatch('SET_TOKEN', null)
+        this.$store.commit('SET_USER', null)
+        this.$store.commit('SET_TOKEN', null)
 
         if (window.localStorage) {
           window.localStorage.setItem('user', null)

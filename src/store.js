@@ -9,8 +9,10 @@ const state = {
   serverURI: 'https://api.online-bani.ru',
   user: null,
   token: null,
+  photo: '',
+  name: '',
   userInfo: {
-    messages: [{1: 'test', 2: 'test'}],
+    messages: [],
     notifications: [],
     tasks: []
   }

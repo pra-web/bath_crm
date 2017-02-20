@@ -90,7 +90,7 @@ export default {
     },
     saveContact: function () {
       var itemId = this.$route.params.id
-      this.$http.put('http://localhost:3000/users/' + itemId, this.response).then(function (res) {
+      this.$http.put(this.getUsers + itemId, this.response).then(function (res) {
         console.log('Data put:', res)
         this.$router.go(-1)
         swal('Данные сохранены', 'Нажмите для продолжения!', 'success')
