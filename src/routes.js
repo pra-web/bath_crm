@@ -18,6 +18,7 @@ import Service from './components/pages/Service.vue'
 import Orders from './components/pages/Orders.vue'
 import Finance from './components/pages/Finance.vue'
 import Notice from './components/pages/Notice.vue'
+import Gallery from './components/pages/Gallery.vue'
 
 // Routes
 const routes = [
@@ -104,6 +105,12 @@ const routes = [
         path: '/notice',
         component: Notice,
         name: 'Уведомления',
+        description: 'Настройки уведомлений'
+      },
+      {
+        path: '/gallery',
+        component: Gallery,
+        name: 'Галерея',
         description: 'Настройки уведомлений'
       }
     ]

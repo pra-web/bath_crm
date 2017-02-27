@@ -12,9 +12,9 @@ const state = {
   photo: '',
   name: '',
   userInfo: {
-    messages: [],
-    notifications: [],
-    tasks: []
+    messages: [{1: 'test', 2: 'test'}],
+    notifications: [{1: 'test', 2: 'test'}],
+    tasks: [{1: 'test', 2: 'test'}]
   }
 }
 

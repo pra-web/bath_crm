@@ -163,9 +163,10 @@
           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/service"><i class="fa fa-book"></i><span class="page">Услуги</span></router-link></li>
           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/orders"><i class="fa fa-shopping-cart"></i><span class="page">Заказы</span></router-link></li>
           <li class="pageLink" v-on:click="toggleMenu"><router-link to="/finance"><i class="fa fa-rub"></i><span class="page">Финансы</span></router-link></li>
+          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/gallery"><i class="fa fa-picture-o"></i><span class="page">Галерея</span></router-link></li>
 
-          <li class="header">Авторизация</li>
-          <li class="pageLink" v-on:click="toggleMenu"><router-link to="/login"><i class="fa fa-circle-o text-yellow"></i> <span class="page">Выйти</span></router-link></li>
+          <li class="header">Авторизация</li>"
+          <li class="pageLink" v-on:click="logout()"><router-link to="/"><i class="fa fa-sign-out"></i><span class="page">Выход</span></router-link></li>
         </ul>
         <!-- /.sidebar-menu -->
       </section>
@@ -194,21 +195,14 @@
     <footer class="main-footer">
       <strong>Copyright &copy; {{year}} <a href="javascript:;">CoPilot</a>.</strong> All rights reserved.
     </footer>
-    <div class="modal fade bs-example-modal-sm" id="saveData" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-      <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-        <h4>Данные сохранены</h4>
-        </div>
-      </div>
-    </div>
   </div>
   <!-- ./wrapper -->
 </template>
 
 <script>
 import faker from 'faker'
+import 'sweetalert2/dist/sweetalert2.css'
 require('hideseek')
-
 module.exports = {
   name: 'Dash',
   data: function () {
@@ -237,7 +231,7 @@ module.exports = {
     demo: function () {
       return {
         displayName: faker.name.findName(),
-        avatar: faker.image.avatar(),
+        avatar: this.store.state,
         email: faker.internet.email(),
         randomCard: faker.helpers.createCard()
       }
@@ -249,7 +243,7 @@ module.exports = {
   },
   methods: {
     changeloading: function () {
-      this.store.dispatch('TOGGLE_SEARCHING')
+      this.store.commit('TOGGLE_SEARCHING')
     },
     toggleMenu: function (event) {
       // remove active from li
@@ -257,6 +251,16 @@ module.exports = {
 
       // Add it to the item that was clicked
       event.toElement.parentElement.className = 'pageLink active'
+    },
+    logout: function () {
+      this.store.commit('SET_USER', null)
+      this.store.commit('SET_TOKEN', null)
+      if (window.localStorage) {
+        window.localStorage.setItem('user', null)
+        window.localStorage.setItem('token', null)
+      }
+
+      this.$router.push('/login')
     }
   },
   mounted: function () {
@@ -264,7 +268,6 @@ module.exports = {
   }
 }
 </script>
-<style src="./../../node_modules/sweetalert/dist/sweetalert.css"></style>
 <style>
 .user-panel {
   height: 4em;

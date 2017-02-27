@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <h1>Home test</h1>
         <div id='calendar'></div>
     </div>
 </template>
@@ -8,13 +7,18 @@
 <script>
 import $ from 'jquery'
 import fullcalendar from 'fullcalendar'
+import datetimepicker from 'eonasdan-bootstrap-datetimepicker'
+import 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
 import 'fullcalendar/dist/fullcalendar.min.css'
+import 'fullcalendar/dist/locale/ru.js'
+import swal from 'sweetalert2'
 export default {
   name: 'Home',
-  components: { fullcalendar },
+  components: { fullcalendar, datetimepicker },
   methods: {
     getCall: function () {
       $('#calendar').fullCalendar({
+        locale: 'ru',
         header: {
           left: 'prev,next today',
           center: 'title',
@@ -22,52 +26,70 @@ export default {
         },
         selectable: true,
         selectHelper: true,
+        navLinks: true,
+        editable: true,
+        eventLimit: false,
+        slotEventOverlap: false,
         select: function (start, end) {
-          var title = 'test'
-          var eventData
-          if (title) {
-            eventData = {
-              title: title,
-              start: start,
-              end: end
+          swal({
+            title: 'Введите данные',
+            html:
+              '<input id="swal-input1" class="swal2-input">' +
+              '<div class="input-group date" id="datetimepicker1"><input type="text" class="form-control" /><span class="input-group-addon"><i class="fa fa-calendar-check-o" aria-hidden="true"></i></span></div>',
+            preConfirm: function () {
+              return new Promise(function (resolve) {
+                resolve([
+                  $('#swal-input1').val(),
+                  $('#dateInput').val()
+                ])
+              })
+            },
+            onOpen: function () {
+              $(function () {
+                $('#datetimepicker1').datetimepicker()
+              })
+              $('#swal-input1').focus()
+            }
+          }).then(function (result) {
+            var getInput = result
+            var title = getInput[0]
+            var eventData
+            if (title) {
+              eventData = {
+                title: title,
+                start: start,
+                end: end
+              }
             }
             $('#calendar').fullCalendar('renderEvent', eventData, true)
-          }
+          }).catch(swal.noop)
           $('#calendar').fullCalendar('unselect')
         },
         // eventClick: function (event, element) {
         //   event.title = 'CLICKED!'
+        //   event.start = '2017-02-01'
         //   $('#calendar').fullCalendar('updateEvent', event)
         // },
-        eventClick: function (drag, title, event, start, end, minuteDelta, allDay, revertFunc) {
-          console.log(event)
-          $.ajax({
-            url: 'http://localhost:3000/events',
-            type: 'POST',
-            dataType: 'json',
-            data: ({
-              title: title,
-              start: start,
-              end: end
-            }),
-            success: function (data, textStatus) {
-              if (!data) {
-                revertFunc()
-                return
-              }
-              $('#calendar').fullCalendar('updateEvent', event)
-            },
-            error: function () {
-              revertFunc()
-            }
-          })
-        },
-        navLinks: true,
-        editable: true,
-        eventLimit: false,
-        events: {
-          url: 'http://localhost:3000/events'
-        }
+        events: [
+          {
+            id: 12,
+            title: 'Long Event',
+            start: '2017-02-07',
+            end: '2017-02-14'
+          },
+          {
+            id: 125,
+            title: 'Repeating Event',
+            start: '2017-02-09',
+            end: '2017-02-11'
+          },
+          {
+            id: 999,
+            title: 'Repeating Event',
+            start: '2017-02-16',
+            end: '2017-02-13'
+          }
+        ]
       })
     }
   },

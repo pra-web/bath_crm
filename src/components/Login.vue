@@ -36,6 +36,7 @@ module.exports = {
       loading: '',
       username: '',
       password: '',
+      photo: '',
       response: ''
     }
   },
@@ -66,15 +67,14 @@ module.exports = {
             //  success. Let's load up the dashboard
             if (data.user) {
               store.commit('SET_USER', data.user)
+              // var token = 'Bearer ' + data.token
               var token = 'Bearer ' + data.token
               store.commit('SET_TOKEN', token)
-
               // Save to local storage as well
               if (window.localStorage) {
                 window.localStorage.setItem('user', JSON.stringify(data.user))
                 window.localStorage.setItem('token', token)
               }
-
               this.$router.push(data.redirect)
             }
           }

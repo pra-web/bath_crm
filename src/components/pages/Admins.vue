@@ -49,7 +49,7 @@ export default {
   name: 'Repository',
   data: function () {
     return {
-      getUsers: 'http://localhost:3000/users',
+      getUsers: '/users',
       response: null,
       error: null
     }
@@ -57,11 +57,10 @@ export default {
   methods: {
     callUsers: function () {
       var user = this
-
       this.$parent.callAPI('GET', this.getUsers).then(function (response) {
         console.log('getUsers Response:', response)
-
         if (response.status !== 200) {
+          console.log('getUsers Response:', response)
           user.error = response.statusText
           return
         }

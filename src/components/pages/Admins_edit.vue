@@ -59,12 +59,12 @@
   </section>
 </template>
 <script>
-import swal from 'sweetalert'
+import swal from 'sweetalert2'
 export default {
   name: 'Repository',
   data: function () {
     return {
-      getUsers: 'http://localhost:3000/users/',
+      getUsers: '/users/',
       response: null,
       error: null
     }
@@ -90,7 +90,7 @@ export default {
     },
     saveContact: function () {
       var itemId = this.$route.params.id
-      this.$http.put(this.getUsers + itemId, this.response).then(function (res) {
+      this.$parent.callAPI('PUT', this.getUsers + itemId, this.response).then(function (res) {
         console.log('Data put:', res)
         this.$router.go(-1)
         swal('Данные сохранены', 'Нажмите для продолжения!', 'success')
