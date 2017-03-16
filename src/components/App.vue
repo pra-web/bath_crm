@@ -13,7 +13,7 @@ export default {
       section: 'Head',
       version: '0.10.0',
       callingAPI: false,
-      serverURI: 'http://localhost:3000',
+      serverURI: 'https://api.online-bani.ru',
       caller: this.$http
     }
   },

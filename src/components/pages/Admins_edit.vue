@@ -64,7 +64,7 @@ export default {
   name: 'Repository',
   data: function () {
     return {
-      getUsers: '/users/',
+      getUsers: '/users',
       response: null,
       error: null
     }
@@ -73,7 +73,7 @@ export default {
     callUsers: function () {
       var user = this
       var itemId = this.$route.params.id
-      this.$parent.callAPI('GET', this.getUsers + itemId).then(function (response) {
+      this.$parent.callAPI('GET', this.getUsers + '/' + itemId).then(function (response) {
         console.log('getUsers Response:', response)
 
         if (response.status !== 200) {
@@ -90,7 +90,7 @@ export default {
     },
     saveContact: function () {
       var itemId = this.$route.params.id
-      this.$parent.callAPI('PUT', this.getUsers + itemId, this.response).then(function (res) {
+      this.$parent.callAPI('PUT', this.getUsers + '/' + itemId, this.response).then(function (res) {
         console.log('Data put:', res)
         this.$router.go(-1)
         swal('Данные сохранены', 'Нажмите для продолжения!', 'success')

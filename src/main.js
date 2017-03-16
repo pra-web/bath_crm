@@ -26,11 +26,10 @@ Vue.use(VueRouter)
 
 Vue.http.interceptors.push((request, next) => {
   // Enable this when you have a backend that you authenticate against
-  var headers = request.headers
-  if (window.location.pathname !== '/login' && !headers.hasOwnProperty('Authorization')) {
-    headers.Authorization = store.state.token
+  if (window.location.pathname !== '/login' && !request.headers.hasOwnProperty('Authorization')) {
+    request.headers.set('Authorization', store.state.token)
   }
-  console.log(headers)
+  console.log(request.headers)
   // continue to next interceptor without modifying the response
   next()
 })
