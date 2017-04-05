@@ -14,17 +14,17 @@
                 <div class="row">
                     <div class="gallery">
                         <div v-if="response" v-for="image in response">
-                              <div class="col-md-3">
+                              <!--<div class="col-md-3">-->
                                   <div class="galleryImage">
                                       <div class="galleryImageBlock">
-                                          <img :src="'https://online-bani.ru/assets/data/gallery' + image.file" alt="" class="img-responsive">
+                                          <img :src="urlImage + image.file" alt="" class="img-responsive">
                                       </div>
                                       <div class="deleteImage">
                                           <button class="btn bg-red" v-on:click="deletePost(image)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                       </div>
-                                      <a :href="'https://online-bani.ru/assets/data/gallery' + image.file" data-lightbox="roadtrip" class="resizeImage"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                      <a :href="urlImage + image.file" data-lightbox="roadtrip" class="resizeImage"><i class="fa fa-search" aria-hidden="true"></i></a>
                                   </div>
-                              </div>
+                              <!--</div>-->
                           </div>
                       </div>
                     </div>
@@ -48,7 +48,9 @@ export default {
   data: function () {
     return {
       response: null,
-      error: null
+      error: null,
+      urlGallery: '/gallery/',
+      urlImage: 'https://online-bani.ru/assets/data/gallery'
     }
   },
   components: { lightbox2 },
@@ -99,9 +101,9 @@ export default {
       })
     },
     deletePost: function (img) {
-      this.$http.delete('https://api.online-bani.ru/gallery/' + img.id)
-      console.log(this.response.indexOf(img))
       var deleteData = this.response
+      var parent = this.$parent
+      var urlGallery = this.urlGallery
       swal({
         title: 'Вы уверены?',
         text: 'Вы не сможете восстановить это изображение!',
@@ -113,11 +115,17 @@ export default {
         closeOnConfirm: false
       }).then(function () {
         deleteData.splice(deleteData.indexOf(img), 1)
-        swal(
-          'Удален!',
-          'Изображение успешно удалено',
-          'success'
-        )
+        parent.callAPI('DELETE', urlGallery + img.id).then(function (res) {
+          swal(
+            'Удален!',
+            'Изображение успешно удалено',
+            'success'
+          )
+          if (res.status !== 200) {
+            this.error = res.statusText
+            return
+          }
+        })
       })
     }
   },
@@ -167,6 +175,7 @@ export default {
     }
     .gallery{   
         padding: 30px;
+        padding-left: 40px;
         .galleryImage{
             margin-bottom: 30px;
             background-color: #000;
@@ -200,18 +209,51 @@ export default {
                 display: block;
                 z-index: 0;
             }
+            .galleryImageBlock{
+              transition: .8s all; 
+            }
             &:hover,&:focus{
                 .galleryImageBlock{
-                    opacity: 0.2;
+                    opacity: 0.5;
+                    transition: .8s all; 
                 }
                 .deleteImage{
                     display: block;
                 }
                 .resizeImage{
-                    display: flex;
+                  display: flex;
 	                align-items: center;
                 }
             }
         }
+    }
+    .gallery { 
+      font-size: 0;
+      display: -ms-flexbox;
+      -ms-flex-wrap: wrap;
+      -ms-flex-direction: column;
+      -webkit-flex-flow: row wrap; 
+      flex-flow: row wrap; 
+      display: -webkit-box;
+      display: flex;
+      .galleryImage { 
+        -webkit-box-flex: auto;
+        -ms-flex: auto;
+        flex: auto; 
+        width: 250px; 
+        margin: .5vw;
+        height: 135px;
+        overflow: hidden;
+        margin-bottom: 10px;
+        img { 
+          width: 100%; 
+          height: auto;                
+        }       
+      }
+    }
+    @media screen and (max-width: 400px) {
+      .gallery .galleryImage { margin: 0; }
+      .gallery { padding: 0; }
+      
     }
 </style>

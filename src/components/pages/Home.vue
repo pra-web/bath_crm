@@ -7,10 +7,10 @@
 <script>
 import $ from 'jquery'
 import fullcalendar from 'fullcalendar'
-import datetimepicker from 'eonasdan-bootstrap-datetimepicker'
-import 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
 import 'fullcalendar/dist/fullcalendar.min.css'
 import 'fullcalendar/dist/locale/ru.js'
+import datetimepicker from 'eonasdan-bootstrap-datetimepicker'
+import 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css'
 import swal from 'sweetalert2'
 export default {
   name: 'Home',
@@ -67,7 +67,8 @@ export default {
         },
         // eventClick: function (event, element) {
         //   event.title = 'CLICKED!'
-        //   event.start = '2017-02-01'
+        //   event.start = '2017-03-01'
+        //   event.end = '2017-03-01'
         //   $('#calendar').fullCalendar('updateEvent', event)
         // },
         events: [

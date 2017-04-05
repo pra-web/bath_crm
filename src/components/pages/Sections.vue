@@ -1,7 +1,7 @@
 <template>
   <section class="content">
     <div class="row center-block">
-      <!--<h2 class="title-users">List of Users</h2>-->
+      <button class="btn bg-green addNewBtn" v-on:click="addSection()">Добавить новое отделение</button>
       <div class="col-md-12">
         <div class="row">
             <div class="box">
@@ -32,10 +32,10 @@
                     <i class="fa fa-ban" aria-hidden="true" v-else></i>
                     </td>
                     <td style="text-align: right;">
-                        <router-link v-bind:to="'/sections/' + section.id" class="btn bg-blue" ><i class="fa fa-calendar-o" aria-hidden="true"></i></router-link>
+                        <router-link v-bind:to="getSections + '/' + section.id + '/calendar'"  class="btn bg-blue" ><i class="fa fa-calendar-o" aria-hidden="true"></i></router-link>
                     </td>
                     <td style="text-align: right;">
-                        <router-link v-bind:to="'/sections/' + section.id" class="btn bg-green" ><i class="fa fa-pencil" aria-hidden="true"></i></router-link>
+                        <router-link v-bind:to="getSections + '/' + section.id" class="btn bg-green" ><i class="fa fa-pencil" aria-hidden="true"></i></router-link>
                     </td>
                     <td style="text-align: right;"><button class="btn bg-red" v-on:click="deletePost(section)"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
                     </tr>
@@ -50,7 +50,8 @@
   </section>
 </template>
 <script>
-// import swal from 'sweetalert'
+import $ from 'jquery'
+import swal from 'sweetalert2'
 export default {
   name: 'Repository',
   data: function () {
@@ -70,7 +71,6 @@ export default {
           section.error = response.statusText
           return
         }
-
         section.response = response.data
       }, function (response) {
         // Request failed.
@@ -80,20 +80,57 @@ export default {
     },
     deletePost: function (section) {
       this.response.splice(this.response.indexOf(section), 1)
-      // this.$http.delete('http://localhost:3000/users/' + user.id)
-      // console.log(user.id)
-      // swal({
-      //   title: 'Are you sure?',
-      //   text: 'You will not be able to recover this imaginary file!',
-      //   type: 'warning',
-      //   showCancelButton: true,
-      //   confirmButtonColor: '#DD6B55',
-      //   confirmButtonText: 'Yes, delete it!',
-      //   closeOnConfirm: false
-      // },
-      //   function () {
-      //   swal('Deleted!', 'Your imaginary file has been deleted.', 'success');
-      //   })
+    },
+    addSection: function () {
+      var parent = this.$parent
+      var getSections = this.getSections
+      // var itemId = this.$route.params.id
+      swal({
+        title: 'Добавить новое отделение',
+        showCancelButton: true,
+        cancelButtonText: 'Отмена',
+        confirmButtonText: 'Добавить',
+        cancelButtonClass: 'btn bg-red',
+        confirmButtonClass: 'btn bg-green',
+        customClass: 'mySwalModal',
+        showLoaderOnConfirm: true,
+        html:
+          '<input id="swal-input1" placeholder="Название" type="text" class="swal2-input">',
+        preConfirm: function () {
+          return new Promise(function (resolve) {
+            resolve([
+              $('#swal-input1').val()
+            ])
+            var title = $('#swal-input1').val()
+            var outTitle = JSON.stringify({title: title})
+            parent.callAPI('POST', getSections, outTitle).then(function (res) {
+              console.log(getSections + '/' + res.body)
+              if (res.status !== 200) {
+                this.error = res.statusText
+                console.log('error')
+                return
+              } else {
+                this.$router.push('sections/' + res.body)
+                swal(
+                  'Добавлено!',
+                  'Отделение успешно добавлено',
+                  'success'
+                )
+              }
+            })
+          })
+        }
+      }).then(function (result) {
+        console.log(this.error)
+        swal('Данные сохранены', 'Нажмите для продолжения!', 'success')
+        if (result[0].length < 3) {
+          swal(
+            'Ошибка!',
+            'В Название меньше 3 символов',
+            'error'
+          )
+        }
+      }).catch(swal.noop)
     }
   },
   mounted: function () {
@@ -104,5 +141,17 @@ export default {
 <style lang="less">
     .title-users{
         margin-left: 15px;
+    }
+    .mySwalModal{
+      .mySwal{
+        height: 60px!important;
+        margin-bottom: 10px!important;
+      }
+      .swal2-spacer{
+        margin: 0!important;
+      }
+      .btn.swal2-styled{
+        margin-top: 5px!important;
+      }
     }
 </style>

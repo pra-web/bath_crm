@@ -23,6 +23,9 @@ import Me from './components/pages/Me.vue'
 import Bathhouse from './components/pages/Bathhouse.vue'
 import BathProperty from './components/pages/BathProperty.vue'
 import Sections from './components/pages/Sections.vue'
+import SectionsEdit from './components/pages/SectionsEdit.vue'
+import SectionsCalendar from './components/pages/SectionsCalendar.vue'
+import SectionsPrice from './components/pages/SectionsPrice.vue'
 
 // Routes
 const routes = [{
@@ -101,9 +104,24 @@ const routes = [{
       name: 'Отделелния',
       description: 'Список отделелний'
     }, {
+      path: '/sections/:id',
+      component: SectionsEdit,
+      name: 'Редактировать отделелние',
+      description: 'Редактировать отделелние'
+    }, {
+      path: '/sections/:id/calendar',
+      component: SectionsCalendar,
+      name: 'Календарь занятости',
+      description: 'Календарь занятости'
+    }, {
+      path: '/sections/:id/price',
+      component: SectionsPrice,
+      name: 'Стоимость',
+      description: 'Стоимость'
+    }, {
       path: '/admins/:id',
       component: AdminsEdit,
-      name: 'Редактировать',
+      name: 'Редактировать администратора',
       description: 'Редактировать администратора'
     }, {
       path: '/service',

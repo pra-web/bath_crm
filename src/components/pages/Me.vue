@@ -15,7 +15,7 @@
                 <div class="row">
                 <div class="col-md-3">
                   <div class="photoUser">
-                    <img :src="'https://online-bani.ru/assets/data/gallery' + response.photo" alt="" class="img-responsive">
+                    <img :src="urlImage + response.photo" alt="" class="img-responsive">
                     <button class="btn btn-default" v-on:click="uploadPhoto()">Загрузить новое изображение</button>
                   </div>                  
                 </div>
@@ -95,6 +95,7 @@ export default {
   data: function () {
     return {
       getMe: '/users/',
+      urlImage: 'https://online-bani.ru/assets/data/gallery',
       response: null,
       error: null,
       id: this.$store.state.user.id,
@@ -126,6 +127,7 @@ export default {
       var urlPage = this.getMe
       var idUser = this.id
       var reload = this.callUsers
+      var server = this.$store.state.serverURI
       swal({
         title: 'Загрузить изображение',
         html: '<div class="uploadBlock"><div id="uploadGallery"></div><i class="fa fa-cloud-upload" aria-hidden="true"></i></div>',
@@ -133,7 +135,7 @@ export default {
         onOpen: function () {
           $(function () {
             var myDropzone = new Dropzone('#uploadGallery', {
-              url: 'https://api.online-bani.ru' + urlPage + idUser,
+              url: server + urlPage + idUser,
               maxFiles: 1,
               acceptedFiles: '.jpg,.png,.jpeg,.gif',
               maxFilesize: 1.5,

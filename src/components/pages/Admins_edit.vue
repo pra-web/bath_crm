@@ -15,7 +15,7 @@
                 <div class="row">
                 <div class="col-md-3">
                   <div class="photoUser">
-                    <img :src="'https://online-bani.ru/assets/data/gallery' + response.photo" alt="" class="img-responsive">
+                    <img :src="urlImage + response.photo" alt="" class="img-responsive">
                     <button class="btn btn-default" v-on:click="uploadPhoto()">Загрузить новое изображение</button>
                   </div>                  
                 </div>
@@ -23,19 +23,19 @@
                 <div class="row">
                   <div class="col-xs-3">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
-                        <input class="form-control" placeholder="Имя" type="text" v-model:value="response.name">
-                      </div>
+                      <span class="input-group-addon"><i class="fa fa-address-card"></i></span>
+                      <input class="form-control" placeholder="Фамилия" type="text" v-model:value="response.surname">
+                    </div>
                   </div>
                   <div class="col-xs-3">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
-                        <input class="form-control" placeholder="Фамилия" type="text" v-model:value="response.surname">
-                      </div>
+                      <span class="input-group-addon"><i class="fa fa-address-card"></i></span>
+                      <input class="form-control" placeholder="Имя" type="text" v-model:value="response.name">
+                    </div>
                   </div>
                   <div class="col-xs-4">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+                        <span class="input-group-addon"><i class="fa fa-address-card"></i></span>
                         <input class="form-control" placeholder="Отчество" type="text" v-model:value="response.fathername">
                       </div>
                   </div>
@@ -97,6 +97,7 @@ export default {
       getUsers: '/users',
       response: null,
       error: null,
+      urlImage: 'https://online-bani.ru/assets/data/gallery',
       fpOptions: {
         locale: ru,
         dateFormat: 'd.m.Y'

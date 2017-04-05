@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import faker from 'faker'
+// import faker from 'faker'
 import 'sweetalert2/dist/sweetalert2.css'
 require('hideseek')
 module.exports = {
@@ -141,14 +141,14 @@ module.exports = {
     callAPI: function () {
       return this.$parent.callAPI
     },
-    demo: function () {
-      return {
-        displayName: faker.name.findName(),
-        avatar: this.store.state,
-        email: faker.internet.email(),
-        randomCard: faker.helpers.createCard()
-      }
-    },
+    // demo: function () {
+    //   return {
+    //     displayName: faker.name.findName(),
+    //     avatar: this.store.state,
+    //     email: faker.internet.email(),
+    //     randomCard: faker.helpers.createCard()
+    //   }
+    // },
     year: function () {
       var y = new Date()
       return y.getFullYear()
@@ -213,5 +213,8 @@ hr.visible-xs-block {
   background-color: rgba(0, 0, 0, 0.17);
   height: 1px;
   border-color: transparent;
+}
+.input-group-addon{
+  min-width: 50px;
 }
 </style>
